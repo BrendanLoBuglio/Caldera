@@ -6,10 +6,11 @@ public class WaterSource : Resource {
 	// Use this for initialization
 	public float nutritionValue = 0f;
 	public float hydrationValue = 100f;
-	public const ResourceType myType = ResourceType.water;
 	
-	void Start () {
 	
+	void Start () 
+	{
+		myType = ResourceType.water;
 	}
 	
 	// Update is called once per frame

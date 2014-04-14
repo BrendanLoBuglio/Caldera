@@ -8,13 +8,14 @@ public class FoodSource : Resource {
 	public float regrowTime = 15f;
 	private float regrowTimer = 0f;
 	public bool isGrown = true;
-	public const ResourceType myType = ResourceType.food;
-
+	
 	private Animator animator;
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		animator = gameObject.GetComponent<Animator>();
+		myType = ResourceType.food;
 	}
 	
 	// Update is called once per frame

@@ -15,6 +15,10 @@ public class AnimalBrain : MonoBehaviour {
 	private float consumeTimer = 0f; //Timer to keep track of how long I've been drinking
 	private GameObject resourceTarget; //The food or water source that the player is currently targeting
 	
+	private float height; //My Height
+	public LayerMask resourceMask; //Layermask used to discriminate against all but resource collisions
+	public LayerMask waypointMask; //Layermask used to discriminate against all but waypoint collisions
+	
 	private AnimalBody body;
 	private FoodMap foodMap;
 
@@ -22,10 +26,7 @@ public class AnimalBrain : MonoBehaviour {
 	{
 		foodMap = GameObject.FindGameObjectWithTag("Map").GetComponent<FoodMap>();
 		body = gameObject.GetComponent<AnimalBody>();
-		
-		Collider2D trigger = gameObject.GetComponent<Collider2D>();
-		
-		Debug.Log ("Trigger: " + trigger.isTrigger);
+		height = Mathf.Abs (renderer.bounds.min.y - renderer.bounds.max.y);
 	}
 	
 	
@@ -70,6 +71,9 @@ public class AnimalBrain : MonoBehaviour {
 			{
 				FindTarget(ResourceType.food);
 			}
+			
+			CheckResourceCollision();
+			CheckWaypointCollision();
 		}
 		
 		//Consuming state behavior:
@@ -96,18 +100,44 @@ public class AnimalBrain : MonoBehaviour {
 		myState = BehaviorState.pursue;
 	}
 	
-	void OnTriggerStay2D(Collider2D other)
+	void CheckResourceCollision()
 	{
-		if(myState == BehaviorState.pursue && other.gameObject == resourceTarget && other.gameObject.GetComponent<Resource>() != null)
+		//Cast a ray to determine whether I've hit my target:
+		Vector2 rayOrigin = new Vector2(transform.position.x, transform.position.y + (height/2.0f));
+		RaycastHit2D hit = Physics2D.Raycast (rayOrigin, -Vector2.up, height, resourceMask.value);
+		Vector2 drawHelper = new Vector2(rayOrigin.x, rayOrigin.y - height);
+		Debug.DrawLine (rayOrigin,drawHelper);
+		
+		if(hit.transform != null)
 		{
-			Resource resource = other.gameObject.GetComponent<Resource>();
-			resource.Consume(this);
-			consumeTimer = 0f;
-			myState = BehaviorState.consuming;
+			GameObject other = hit.transform.gameObject;
+			
+			if(myState == BehaviorState.pursue && other == resourceTarget && other.GetComponent<Resource>() != null)
+			{
+				Resource resource = other.GetComponent<Resource>();
+				resource.Consume(this);
+				consumeTimer = 0f;
+				myState = BehaviorState.consuming;
+			}
+			else
+			{
+				Debug.Log ("Haha, you're fucked!");
+			}
 		}
-		else
+	}
+	
+	void CheckWaypointCollision()
+	{
+		//Cast a ray to determine whether I've hit a waypoint on the map:
+		Vector2 rayOrigin = new Vector2(transform.position.x + 0.05f, transform.position.y + (height/2.0f));
+		RaycastHit2D hit = Physics2D.Raycast (rayOrigin, -Vector2.up, height, waypointMask.value);
+		Vector2 drawHelper = new Vector2(rayOrigin.x, rayOrigin.y - height);
+		Debug.DrawLine (rayOrigin,drawHelper, Color.blue);
+		
+		if(hit.transform != null)
 		{
-			Debug.Log ("Haha, you're fucked!");
+			GameObject other = hit.transform.gameObject;
+			gameObject.SendMessage ("WaypointCollision", other);
 		}
-	}	
+	}
 }

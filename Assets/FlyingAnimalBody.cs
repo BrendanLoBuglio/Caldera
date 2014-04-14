@@ -7,7 +7,7 @@ public class FlyingAnimalBody : AnimalBody
 	{
 		moveSpeed = 5f; // The amount of unity units I move each frame
 	}
-	public void AIMove(Transform target)
+	public override void AIMove(Transform target)
 	{
 		float direction = Mathf.Atan2 (target.position.y - transform.position.y, target.position.x - transform.position.x);
 		float xMove = Mathf.Cos (direction) * moveSpeed * Time.deltaTime;

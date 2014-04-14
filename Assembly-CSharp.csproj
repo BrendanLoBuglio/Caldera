@@ -48,13 +48,17 @@
   <ItemGroup>
      <Compile Include="Assets\AnimalBody.cs" />
      <Compile Include="Assets\AnimalBrain.cs" />
+     <Compile Include="Assets\EightDirectionBasic.cs" />
      <Compile Include="Assets\FlyingAnimalBody.cs" />
      <Compile Include="Assets\FoodMap.cs" />
      <Compile Include="Assets\FoodSource.cs" />
+     <Compile Include="Assets\JumpTest.cs" />
+     <Compile Include="Assets\LevelMap.cs" />
      <Compile Include="Assets\Phantom.cs" />
      <Compile Include="Assets\PlatformingAnimalBody.cs" />
      <Compile Include="Assets\Resource.cs" />
      <Compile Include="Assets\WaterSource.cs" />
+     <Compile Include="Assets\Waypoint.cs" />
      <Compile Include="Assets\moveme.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
