@@ -46,20 +46,22 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\AnimalBody.cs" />
-     <Compile Include="Assets\AnimalBrain.cs" />
-     <Compile Include="Assets\EightDirectionBasic.cs" />
-     <Compile Include="Assets\FlyingAnimalBody.cs" />
-     <Compile Include="Assets\FoodMap.cs" />
-     <Compile Include="Assets\FoodSource.cs" />
-     <Compile Include="Assets\JumpTest.cs" />
-     <Compile Include="Assets\LevelMap.cs" />
-     <Compile Include="Assets\Phantom.cs" />
-     <Compile Include="Assets\PlatformingAnimalBody.cs" />
-     <Compile Include="Assets\Resource.cs" />
-     <Compile Include="Assets\WaterSource.cs" />
-     <Compile Include="Assets\Waypoint.cs" />
-     <Compile Include="Assets\moveme.cs" />
+     <Compile Include="Assets\Scripts\AnimalBody.cs" />
+     <Compile Include="Assets\Scripts\AnimalBrain.cs" />
+     <Compile Include="Assets\Scripts\AnimalStateMachine.cs" />
+     <Compile Include="Assets\Scripts\EightDirectionBasic.cs" />
+     <Compile Include="Assets\Scripts\FlyingAnimalBody.cs" />
+     <Compile Include="Assets\Scripts\FoodMap.cs" />
+     <Compile Include="Assets\Scripts\FoodSource.cs" />
+     <Compile Include="Assets\Scripts\LeftRightBump.cs" />
+     <Compile Include="Assets\Scripts\LevelMap.cs" />
+     <Compile Include="Assets\Scripts\Phantom.cs" />
+     <Compile Include="Assets\Scripts\PlatformingAnimalBody.cs" />
+     <Compile Include="Assets\Scripts\Resource.cs" />
+     <Compile Include="Assets\Scripts\SmartJump.cs" />
+     <Compile Include="Assets\Scripts\WaterSource.cs" />
+     <Compile Include="Assets\Scripts\Waypoint.cs" />
+     <Compile Include="Assets\Scripts\moveme.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
