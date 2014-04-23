@@ -1,19 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public enum BehaviorState {idle, pursue, consuming}
 
 public class AnimalBrain : MonoBehaviour {
-	private BehaviorState myState = BehaviorState.idle;
+	public BehaviorState myState = BehaviorState.idle;
 	private AnimalStateMachine stateMachine;
 	private float consumeTimer = 0f; //Timer to keep track of how long I've been drinking
-	private GameObject resourceTarget; //The food or water source that the player is currently targeting
-	
-	
-	[HideInInspector] public float height; //My Height
-	public LayerMask resourceMask; //Layermask used to discriminate against all but resource collisions
-	public LayerMask waypointMask; //Layermask used to discriminate against all but waypoint collisions
-	
+	private GameObject resourceTarget; //The food or water source that the player is currently targeting	
 	private AnimalBody body;
 	private FoodMap foodMap;
 
@@ -24,8 +18,7 @@ public class AnimalBrain : MonoBehaviour {
 		foodMap = GameObject.FindGameObjectWithTag("Map").GetComponent<FoodMap>();
 		
 		stateMachine.maximumHydration = stateMachine.hydration;
-		stateMachine.maximumNutrition = stateMachine.nutrition;		
-		height = Mathf.Abs (renderer.bounds.min.y - renderer.bounds.max.y);
+		stateMachine.maximumNutrition = stateMachine.nutrition;
 	}
 	
 	
@@ -65,14 +58,12 @@ public class AnimalBrain : MonoBehaviour {
 		{
 			body.AIMove(resourceTarget.transform);
 			
-			//Choose a new target if yours is already eaten food
+			//Choose a new target if yours is already eaten
 			if(resourceTarget.GetComponent<Resource>().myType == ResourceType.food && !resourceTarget.GetComponent<FoodSource>().isGrown)
 			{
+				gameObject.SendMessage ("IfFoodTargetChanged", SendMessageOptions.DontRequireReceiver);
 				FindTarget(ResourceType.food);
 			}
-			
-			CheckResourceCollision();
-			CheckWaypointCollision();
 		}
 		
 		//Consuming state behavior:
@@ -99,40 +90,14 @@ public class AnimalBrain : MonoBehaviour {
 		myState = BehaviorState.pursue;
 	}
 	
-	void CheckResourceCollision()
+	void ResourceCollision(GameObject other) //Depends on a SendMessage Call from AnimalSensory
 	{
-		//Cast a ray to determine whether I've hit my targeted resource:
-		Vector2 rayOrigin = new Vector2(transform.position.x, transform.position.y + (height/2.0f));
-		RaycastHit2D hit = Physics2D.Raycast (rayOrigin, -Vector2.up, height, resourceMask.value);
-		Vector2 drawHelper = new Vector2(rayOrigin.x, rayOrigin.y - height);
-		Debug.DrawLine (rayOrigin,drawHelper);
-		
-		if(hit.transform != null)
+		if(myState == BehaviorState.pursue && other == resourceTarget && other.GetComponent<Resource>() != null)
 		{
-			GameObject other = hit.transform.gameObject;
-			
-			if(myState == BehaviorState.pursue && other == resourceTarget && other.GetComponent<Resource>() != null)
-			{
-				Resource resource = other.GetComponent<Resource>();
-				resource.Consume(stateMachine);
-				consumeTimer = 0f;
-				myState = BehaviorState.consuming;
-			}
-		}
-	}
-	
-	void CheckWaypointCollision()
-	{
-		//Cast a ray to determine whether I've hit a waypoint on the map:
-		Vector2 rayOrigin = new Vector2(transform.position.x + 0.05f, transform.position.y + (height/2.0f));
-		RaycastHit2D hit = Physics2D.Raycast (rayOrigin, -Vector2.up, height, waypointMask.value);
-		Vector2 drawHelper = new Vector2(rayOrigin.x, rayOrigin.y - height);
-		Debug.DrawLine (rayOrigin,drawHelper, Color.blue);
-		
-		if(hit.transform != null)
-		{
-			GameObject other = hit.transform.gameObject;
-			gameObject.SendMessage ("WaypointCollision", other);
+			Resource resource = other.GetComponent<Resource>();
+			resource.Consume(stateMachine);
+			consumeTimer = 0f;
+			myState = BehaviorState.consuming;
 		}
 	}
 }

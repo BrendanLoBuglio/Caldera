@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FlyingAnimalBody : AnimalBody 
+public class TestVectorAnimalBody : AnimalBody 
 {
 	void Start ()
 	{

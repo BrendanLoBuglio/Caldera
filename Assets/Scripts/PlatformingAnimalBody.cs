@@ -9,9 +9,11 @@ public class PlatformingAnimalBody : AnimalBody
 	public bool goingRight = false;
 	private PlatformingState moveState;
 	private SmartJump smartJump;
+	private AnimalSensory sensory;
 
 	void Start()
 	{
+		sensory = gameObject.GetComponent<AnimalSensory>();
 		moveSpeed = 5f; // The amount of unity units I move each frame
 		//rigidbody = gameObject.GetComponent<Rigidbody2D>();
 		moveState = PlatformingState.running;
@@ -71,7 +73,7 @@ public class PlatformingAnimalBody : AnimalBody
 	
 	public void NewJump (Vector2 jumpDistance)
 	{
-		if(!smartJump.isJumping && smartJump.isGrounded)
+		if(!smartJump.isJumping && sensory.isGrounded)
 		{
 			moveState = PlatformingState.jumping;
 			smartJump.Jump(jumpDistance);

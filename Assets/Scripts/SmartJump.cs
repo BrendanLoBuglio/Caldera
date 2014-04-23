@@ -15,14 +15,12 @@ public class SmartJump : MonoBehaviour
 	private float gravityAcceleration;
 	private float yBeforeJump;
 	private int jumpStage = 0;
-	private AnimalBrain animalBrain;
-	public LayerMask floorMask;
-	[HideInInspector] public bool isGrounded;
+	private AnimalSensory sensory;
 	
 	void Start()
 	{
+		sensory = gameObject.GetComponent<AnimalSensory>();
 		CalculateJump();
-		animalBrain = gameObject.GetComponent<AnimalBrain>();
 	}
 	void CalculateJump()
 	{
@@ -50,15 +48,12 @@ public class SmartJump : MonoBehaviour
 			rigidbody2D.velocity = jumpVelocityStage2;
 			jumpStage = 2;
 		}
-		CheckIfGrounded();
-		if(isJumping && jumpStage == 2 && isGrounded)
+		if(isJumping && jumpStage == 2 && sensory.isGrounded)
 		{
 			rigidbody2D.velocity = Vector2.zero;
 			jumpStage = 0;
-			isJumping = false;
+			isJumping = false; 
 		}
-		
-	
 	}
 	public void Jump(Vector2 newPositionDifference)
 	{
@@ -68,23 +63,5 @@ public class SmartJump : MonoBehaviour
 		rigidbody2D.velocity = jumpVelocityStage1;
 		yBeforeJump = transform.position.y;
 		jumpStage = 1;
-	}
-	
-	public void CheckIfGrounded()
-	{
-		//Cast a ray to determine whether I'm standing on the ground
-		Vector2 rayOrigin = new Vector2(transform.position.x, transform.position.y - (animalBrain.height/2.0f));
-		RaycastHit2D hit = Physics2D.Raycast (rayOrigin, -Vector2.up, (animalBrain.height / 20f), floorMask.value);
-		Vector2 drawHelper = new Vector2(rayOrigin.x, rayOrigin.y - (animalBrain.height / 20f));
-		Debug.DrawLine (rayOrigin,drawHelper, Color.red);
-		
-		if(hit.transform != null)
-		{
-			isGrounded = true;	
-		}
-		else
-		{
-			isGrounded = false;
-		}
 	}
 }

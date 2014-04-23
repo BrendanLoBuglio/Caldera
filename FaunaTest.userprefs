@@ -1,13 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlatformingAnimalBody.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\FlyingAnimalBody.cs">
     <Files>
-      <File FileName="Assets\Scripts\AnimalBrain.cs" Line="107" Column="69" />
-      <File FileName="Assets\Scripts\SmartJump.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlatformingAnimalBody.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Waypoint.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LeftRightBump.cs" Line="15" Column="31" />
-      <File FileName="Assets\Scripts\AnimalStateMachine.cs" Line="1" Column="19" />
+      <File FileName="Assets\FlyingAnimalBody.cs" Line="107" Column="30" />
+      <File FileName="Assets\AnimalSensory.cs" Line="99" Column="78" />
+      <File FileName="Assets\FlyingAnimalBody.cs" Line="107" Column="30" />
+      <File FileName="Assets\Scripts\AnimalBrain.cs" Line="1" Column="1" />
+      <File FileName="Assets\Editor\ReplaceObjects.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PhantomController.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
