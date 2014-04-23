@@ -5,7 +5,6 @@ public enum FlyingState{longRangeApproach, shortRangeApproach, idle}
 
 public class FlyingAnimalBody : AnimalBody 
 {
-	public bool isDerpy = false;
 	public float closeToFoodTurnSpeed = 15f;
 	public float farFromFoodTurnSpeed = 5f;
 	private float turnSpeed = 5f;
@@ -13,7 +12,7 @@ public class FlyingAnimalBody : AnimalBody
 	private float targetDirection = 0f;
 	private float direction = 90f;
 	private AnimalBrain brain;
-	private FlyingState myState = FlyingState.idle;
+	public FlyingState myState = FlyingState.idle;
 	private AnimalSensory sensory;
 	private bool aiMoveWasCalled = false;
 	
@@ -27,7 +26,7 @@ public class FlyingAnimalBody : AnimalBody
 	void Update ()
 	{
 		//Reset the direction to Up if you're not currently pursuing
-		if(brain.myState != BehaviorState.pursue)
+		if(brain.myState != BehaviorState.pursue && brain.myState != BehaviorState.returnHome)
 		{
 			direction = 90f;
 		}
@@ -111,7 +110,6 @@ public class FlyingAnimalBody : AnimalBody
 	
 	void IfFoodTargetChanged() //Called by AnimalBrain when my food target is reselected (like when someone else eats it first)
 	{
-		Debug.Log ("If Food Target Called!");
 		if(myState == FlyingState.shortRangeApproach)
 			myState = FlyingState.longRangeApproach;
 	}

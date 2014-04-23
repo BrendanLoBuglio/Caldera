@@ -46,13 +46,18 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AnimalMap.cs" />
      <Compile Include="Assets\AnimalSensory.cs" />
+     <Compile Include="Assets\EagleBody.cs.cs" />
      <Compile Include="Assets\FlyingAnimalBody.cs" />
+     <Compile Include="Assets\HUD.cs" />
+     <Compile Include="Assets\HunterBrain.cs" />
      <Compile Include="Assets\Scripts\AnimalBody.cs" />
      <Compile Include="Assets\Scripts\AnimalBrain.cs" />
      <Compile Include="Assets\Scripts\AnimalStateMachine.cs" />
      <Compile Include="Assets\Scripts\FoodMap.cs" />
      <Compile Include="Assets\Scripts\FoodSource.cs" />
+     <Compile Include="Assets\Scripts\GatherBrain.cs" />
      <Compile Include="Assets\Scripts\LeftRightBump.cs" />
      <Compile Include="Assets\Scripts\LevelMap.cs" />
      <Compile Include="Assets\Scripts\Phantom.cs" />

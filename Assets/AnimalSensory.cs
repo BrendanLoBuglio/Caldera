@@ -13,7 +13,9 @@ public class AnimalSensory : MonoBehaviour
 	public LayerMask resourceMask; //Layermask used to discriminate against all but resource collisions
 	public LayerMask waypointMask; //Layermask used to discriminate against all but waypoint collisions
 	public LayerMask floorMask; //LayerMask used to discriminate against all but collisions with the ground
+	public LayerMask actorMask; //LayerMask used to discriminate against all but collisions with other actors
 	
+	public GameObject objectAbove;
 	
 	void Start () 
 	{
@@ -25,6 +27,7 @@ public class AnimalSensory : MonoBehaviour
 	{
 		CheckResourceCollision();
 		CheckWaypointCollision();
+		CheckActorCollision();
 		CheckIfGrounded();
 		CheckDistanceFromGround();
 		CheckDistanceFromWalls();
@@ -61,6 +64,21 @@ public class AnimalSensory : MonoBehaviour
 		}
 	}
 	
+	void CheckActorCollision()
+	{
+		//Cast a ray to determine whether I've hit an actor:
+		Vector2 rayOrigin = new Vector2(transform.position.x - 0.05f, transform.position.y + (height/2.0f));
+		RaycastHit2D hit = Physics2D.Raycast (rayOrigin, -Vector2.up, height, actorMask.value);
+		Vector2 drawHelper = new Vector2(rayOrigin.x, rayOrigin.y - height);
+		Debug.DrawLine (rayOrigin,drawHelper, Color.green);
+		
+		if(hit.transform != null)
+		{
+			GameObject other = hit.transform.gameObject;
+			gameObject.SendMessage ("ActorCollision", other, SendMessageOptions.DontRequireReceiver);
+		}
+	}
+	
 	public void CheckIfGrounded()
 	{
 		//Cast a ray to determine whether I'm standing on the ground
@@ -85,6 +103,7 @@ public class AnimalSensory : MonoBehaviour
 		{
 			Debug.DrawLine (rayOrigin,hit.point, Color.yellow);
 			distanceFromGround = Vector2.Distance(rayOrigin, hit.point);
+			objectAbove = hit.transform.gameObject;
 		}
 		else
 		{
