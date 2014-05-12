@@ -13,10 +13,19 @@ public class PhantomController : MonoBehaviour
 	public LayerMask faunaMask;
 	private HUD hud;
 	
+	private ParticleSystem possessParticles;
+	private ParticleSystem followParticles;
+	
 	void Start()
 	{
 		tracker = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<LevelMap>();
 		hud = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<HUD>();
+		
+		possessParticles = transform.FindChild("Particles_Possess").gameObject.GetComponent<ParticleSystem>();
+		followParticles = transform.FindChild("Particles_Follow").gameObject.GetComponent<ParticleSystem>();
+		
+		possessParticles.enableEmission = false;
+		followParticles.enableEmission = false;
 	}
 	
 	void Update()
@@ -27,15 +36,19 @@ public class PhantomController : MonoBehaviour
 		{
 			transform.position = possessedCreature.transform.position;
 			renderer.enabled = false;
+			possessParticles.enableEmission = true;
 		}
 		else if(Input.GetKey (KeyCode.Q))
 		{
 			renderer.enabled = false;
+			followParticles.enableEmission = true;
 		}
 		
 		else
 		{
 			renderer.enabled = true;
+			possessParticles.enableEmission = false;
+			followParticles.enableEmission = false;
 		}
 		
 		if(isPossessing && Input.GetKey (KeyCode.R))
@@ -45,7 +58,7 @@ public class PhantomController : MonoBehaviour
 		
 		if(isFollowing && !Input.GetKey (KeyCode.Q))
 		{
-			tracker.trackedObject = null;
+			//tracker.trackedObject = null;
 		}
 		
 		if(isPossessing && stateMachine != null)
@@ -70,7 +83,7 @@ public class PhantomController : MonoBehaviour
 			animalController = possessedCreature.GetComponent<PossesionController>();
 			animalController.enabled = true;
 			isPossessing = true;
-			tracker.trackedObject = possessedCreature;
+			//tracker.trackedObject = possessedCreature;
 		}
 		
 		if(!isPossessing && Input.GetKey (KeyCode.Q) && potentialFauna.CompareTag("Fauna"))
@@ -78,7 +91,7 @@ public class PhantomController : MonoBehaviour
 			transform.position = potentialFauna.transform.position;
 			renderer.enabled = false;
 			isFollowing = true;
-			tracker.trackedObject = potentialFauna;
+			//tracker.trackedObject = potentialFauna;
 		}
 	}
 	
@@ -88,6 +101,6 @@ public class PhantomController : MonoBehaviour
 		possessedCreature = null;
 		animalController.enabled = false;
 		animalController = null;
-		tracker.trackedObject = null;
+		//tracker.trackedObject = null;
 	}
 }

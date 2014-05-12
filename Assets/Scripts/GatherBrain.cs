@@ -62,7 +62,7 @@ public class GatherBrain : AnimalBrain {
 			//Check if you're within friendlyRange of your friendyFriend
 			if(pursueTarget.GetComponent<GatherBrain>())
 			{
-				if(Vector2.Distance (transform.position, pursueTarget.transform.position) <= conversationRange)
+				if(Vector2.Distance (transform.position, pursueTarget.transform.position) <= conversationRange || Mathf.Abs(transform.position.x - pursueTarget.transform.position.x) <= 0.2f)
 				{
 					myState = BehaviorState.consuming;
 					consumeTimer = 0f;

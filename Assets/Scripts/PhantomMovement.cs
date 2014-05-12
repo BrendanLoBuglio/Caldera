@@ -20,19 +20,19 @@ public class PhantomMovement : MonoBehaviour {
 		{
 			float xMove = 0, yMove = 0;
 		
-			if(Input.GetAxis("Horizontal") > 0 && transform.position.x < tracker.cameraBox.xMax)
+			if(Input.GetAxis("Horizontal") > 0 && transform.position.x < tracker.cameraBox.xMax - 0.2f)
 			{
 				xMove = Input.GetAxis ("Horizontal") * speed * Time.deltaTime;
 			}
-			else if(Input.GetAxis ("Horizontal") < 0 && transform.position.x > tracker.cameraBox.xMin)
+			else if(Input.GetAxis ("Horizontal") < 0 && transform.position.x > tracker.cameraBox.xMin + 0.2f)
 			{
 				xMove = Input.GetAxis ("Horizontal") * speed * Time.deltaTime;
 			}
-			if(Input.GetAxis("Vertical") > 0 && transform.position.y < tracker.cameraBox.yMax)
+			if(Input.GetAxis("Vertical") > 0 && transform.position.y < tracker.cameraBox.yMax  - 0.2f)
 			{
 				yMove = Input.GetAxis ("Vertical") * speed * Time.deltaTime;
 			}
-			else if(Input.GetAxis ("Vertical") < 0 && transform.position.y > tracker.cameraBox.yMin)
+			else if(Input.GetAxis ("Vertical") < 0 && transform.position.y > tracker.cameraBox.yMin + 0.2f)
 			{
 				yMove = Input.GetAxis ("Vertical") * speed * Time.deltaTime;
 			}
