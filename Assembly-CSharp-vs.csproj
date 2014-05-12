@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{6CB28023-FF5D-1330-7E0B-1E93F9E1EC11}</ProjectGuid>
+	<ProjectGuid>{90D4CAB2-EF00-3F27-4B2E-C28973114EF2}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,18 +46,24 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\AnimalMap.cs" />
-     <Compile Include="Assets\AnimalSensory.cs" />
-     <Compile Include="Assets\EagleBody.cs.cs" />
-     <Compile Include="Assets\FlyingAnimalBody.cs" />
-     <Compile Include="Assets\HUD.cs" />
-     <Compile Include="Assets\HunterBrain.cs" />
+     <Compile Include="Assets\AutoFlip.cs" />
+     <Compile Include="Assets\DayNightManager.cs" />
+     <Compile Include="Assets\FlashyTransperant.cs" />
+     <Compile Include="Assets\FlyingPossesion.cs" />
      <Compile Include="Assets\Scripts\AnimalBody.cs" />
      <Compile Include="Assets\Scripts\AnimalBrain.cs" />
+     <Compile Include="Assets\Scripts\AnimalMap.cs" />
+     <Compile Include="Assets\Scripts\AnimalSensory.cs" />
      <Compile Include="Assets\Scripts\AnimalStateMachine.cs" />
+     <Compile Include="Assets\Scripts\DepletableWaterSource.cs" />
+     <Compile Include="Assets\Scripts\EagleBody.cs.cs" />
+     <Compile Include="Assets\Scripts\FlyingAnimalBody.cs" />
      <Compile Include="Assets\Scripts\FoodMap.cs" />
      <Compile Include="Assets\Scripts\FoodSource.cs" />
      <Compile Include="Assets\Scripts\GatherBrain.cs" />
+     <Compile Include="Assets\Scripts\GoToScene.cs" />
+     <Compile Include="Assets\Scripts\HUD.cs" />
+     <Compile Include="Assets\Scripts\HunterBrain.cs" />
      <Compile Include="Assets\Scripts\LeftRightBump.cs" />
      <Compile Include="Assets\Scripts\LevelMap.cs" />
      <Compile Include="Assets\Scripts\Phantom.cs" />
@@ -65,12 +71,15 @@
      <Compile Include="Assets\Scripts\PhantomMovement.cs" />
      <Compile Include="Assets\Scripts\PlatformingAnimalBody.cs" />
      <Compile Include="Assets\Scripts\PlatformingPossesion.cs" />
+     <Compile Include="Assets\Scripts\PossesionController.cs" />
+     <Compile Include="Assets\Scripts\RainManager.cs" />
      <Compile Include="Assets\Scripts\Resource.cs" />
      <Compile Include="Assets\Scripts\SmartJump.cs" />
      <Compile Include="Assets\Scripts\TestVectorAnimalBody.cs" />
      <Compile Include="Assets\Scripts\WaterSource.cs" />
      <Compile Include="Assets\Scripts\Waypoint.cs" />
      <Compile Include="Assets\Scripts\moveme.cs" />
+     <Compile Include="Assets\TurkeyBrain.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,6 +10,8 @@ public class AnimalStateMachine : MonoBehaviour {
 	public float drinkTime = 1.5f; // The amount of time it takes me to drink
 	public float eatTime = 0.8f; // The amount of time it takes me to eat.
 	
+	public AnimalType myType;
+	
 	[HideInInspector] public float maximumHydration;
 	[HideInInspector] public float maximumNutrition;
 	// Use this for initialization
@@ -17,6 +19,9 @@ public class AnimalStateMachine : MonoBehaviour {
 	{
 		maximumHydration = hydration;
 		maximumNutrition = nutrition;
+		
+		//hydration = maximumHydration * drinkThreshold;
+		//nutrition = maximumNutrition * eatThreshold;
 	}
 	
 	// Update is called once per frame

@@ -29,6 +29,20 @@ public class FoodMap : MonoBehaviour {
 				i--;
 			}
 		}
+		
+		//remove all "ungrown" food sources from foodlist:
+		for (int i = 0; i < waterList.Count; i++)
+		{
+			if(waterList[i].GetComponent<DepletableWaterSource>())
+			{
+				DepletableWaterSource water = waterList[i].GetComponent<DepletableWaterSource>();
+				if (water.drinksRemaining <= 0)
+				{
+					waterList.RemoveAt(i);
+					i--;
+				}
+			}
+		}
 	}
 	
 	public GameObject FindClosestResource (ResourceType resource, Vector2 myPosition)

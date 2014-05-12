@@ -1,15 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\HUD.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\DepletableWaterSource.cs">
     <Files>
-      <File FileName="Assets\AnimalMap.cs" Line="17" Column="3" />
-      <File FileName="Assets\HunterBrain.cs" Line="67" Column="35" />
-      <File FileName="Assets\FlyingAnimalBody.cs" Line="40" Column="39" />
-      <File FileName="Assets\EagleBody.cs.cs" Line="2" Column="26" />
-      <File FileName="Assets\AnimalSensory.cs" Line="106" Column="43" />
-      <File FileName="Assets\Scripts\GatherBrain.cs" Line="49" Column="26" />
-      <File FileName="Assets\Scripts\AnimalBrain.cs" Line="8" Column="31" />
-      <File FileName="Assets\HUD.cs" Line="1" Column="1" />
+      <File FileName="Assets\DepletableWaterSource.cs" Line="35" Column="21" />
+      <File FileName="Assets\Scripts\FoodMap.cs" Line="44" Column="5" />
+      <File FileName="Assets\RainManager.cs" Line="12" Column="36" />
+      <File FileName="Assets\Scripts\FoodSource.cs" Line="39" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

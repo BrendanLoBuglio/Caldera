@@ -18,7 +18,7 @@ public class WaterSource : Resource {
 	
 	}
 	
-	public override void Consume(AnimalStateMachine consumer)
+	public override void Consume(AnimalStateMachine consumer, bool witherResource)
 	{
 		consumer.hydration += hydrationValue;
 		consumer.hydration = Mathf.Clamp (consumer.hydration, 0, consumer.maximumHydration);

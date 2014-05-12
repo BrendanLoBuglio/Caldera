@@ -1,51 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlatformingPossesion : MonoBehaviour {
-
+public class PlatformingPossesion : PossesionController 
+{
 	public Vector2 jumpVelocity;
-	
-	private AnimalSensory sensory;
-	private AnimalBody body;
-	private AnimalBrain brain;
-	private SmartJump jumpController;
-	
-	private float moveSpeed;
-	private bool isInitialized = false;
-	
-	void Start () 
-	{
-		InitializeMe();
-	}
-	
-	void InitializeMe()
-	{
-		sensory = gameObject.GetComponent<AnimalSensory>();
-		
-		body = gameObject.GetComponent<AnimalBody>();
-		brain = gameObject.GetComponent<AnimalBrain>();
-		jumpController = gameObject.GetComponent<SmartJump>();
-		
-		moveSpeed = body.moveSpeed;
-		isInitialized = true;
-	}
-	
-	
-	void OnEnable () 
-	{
-		if(!isInitialized)
-			InitializeMe();
-	
-		body.enabled = false;
-		brain.enabled = false;
-		jumpController.enabled = false;
-	}
-	void OnDisable ()
-	{
-		body.enabled = true;
-		brain.enabled = true;
-		jumpController.enabled = true;
-	}
 	
 	void Update () 
 	{
@@ -64,5 +22,31 @@ public class PlatformingPossesion : MonoBehaviour {
 		{
 			rigidbody2D.velocity = jumpVelocity;
 		}
+	}
+	
+	void ResourceCollision(GameObject other)
+	{
+		if(Input.GetKey (KeyCode.B))
+		{
+			Resource resource = other.GetComponent<Resource>();
+			resource.Consume(stateMachine, false);
+		}
+	}
+	
+	public void ActorDeath()
+	{
+		Debug.Log ("ActorDeath Called from PlatformingPossession!");
+		brain.enabled = true;
+		if(stateMachine.myType == AnimalType.prairieDog && gameObject.GetComponent<GatherBrain>().pursueTarget.GetComponent<GatherBrain>())
+		{
+			gameObject.GetComponent<GatherBrain>().pursueTarget.GetComponent<GatherBrain>().ClearFriends();
+		}
+		else
+		{
+			Debug.Log ("The statement was false!");
+		}
+		
+		possesor.DetachActor();
+		Destroy(gameObject);
 	}
 }
