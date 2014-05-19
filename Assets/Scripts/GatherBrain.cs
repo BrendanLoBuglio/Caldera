@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class GatherBrain : AnimalBrain {
+public class GatherBrain : AnimalBrain 
+{
 	public AnimalStateMachine stateMachine;
 	private Animator animator;
 	public float consumeTimer = 0f; //Timer to keep track of how long I've been drinking
@@ -38,10 +39,7 @@ public class GatherBrain : AnimalBrain {
 			if(myState == BehaviorState.idle && animalMap.CountIdleAnimals(AnimalType.prairieDog) >= 2 && stateMachine.myType == AnimalType.prairieDog) 
 			{
 				//Find a buddy to talk to
-				if(closeOrFarConversationAlternator)
-					pursueTarget = animalMap.FindClosestAnimal(AnimalType.prairieDog, gameObject, true, false);
-				else
-					pursueTarget = animalMap.FindClosestAnimal(AnimalType.prairieDog, gameObject, true, true);
+				pursueTarget = animalMap.FindClosestAnimal(AnimalType.prairieDog, gameObject, true, closeOrFarConversationAlternator);;
 				pursueTarget.GetComponent<GatherBrain>().FriendRequest(gameObject);
 				myState = BehaviorState.pursue;
 				closeOrFarConversationAlternator = !closeOrFarConversationAlternator;

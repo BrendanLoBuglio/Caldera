@@ -29,7 +29,10 @@ public class PlatformingPossesion : PossesionController
 		if(Input.GetKey (KeyCode.B))
 		{
 			Resource resource = other.GetComponent<Resource>();
-			resource.Consume(stateMachine, false);
+			if(stateMachine.myType == AnimalType.turkey)
+				resource.Consume(stateMachine, true);
+			else
+				resource.Consume(stateMachine, false);
 		}
 	}
 	

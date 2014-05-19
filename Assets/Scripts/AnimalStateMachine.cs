@@ -20,8 +20,8 @@ public class AnimalStateMachine : MonoBehaviour {
 		maximumHydration = hydration;
 		maximumNutrition = nutrition;
 		
-		//hydration = maximumHydration * drinkThreshold;
-		//nutrition = maximumNutrition * eatThreshold;
+		hydration = maximumHydration * Random.Range(drinkThreshold, 1f);
+		nutrition = maximumNutrition * Random.Range (eatThreshold, 1f);
 	}
 	
 	// Update is called once per frame

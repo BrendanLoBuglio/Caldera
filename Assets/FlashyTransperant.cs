@@ -16,7 +16,7 @@ public class FlashyTransperant : MonoBehaviour {
 	void Update () 
 	{
 		sinCounter += Time.deltaTime;
-		alpha = 192f + 64f * Mathf.Sin (sinCounter);
+		alpha = .75f + .25f * Mathf.Sin (sinCounter);
 		
 		renderer.material.color = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, alpha);
 	}

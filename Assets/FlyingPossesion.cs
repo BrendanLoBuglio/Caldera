@@ -5,6 +5,8 @@ public class FlyingPossesion : PossesionController
 {
 	void Update () 
 	{
+		rigidbody2D.gravityScale = 0f;
+	
 		float xMove = 0;
 		float yMove = 0;
 		
@@ -17,7 +19,7 @@ public class FlyingPossesion : PossesionController
 	
 	void ResourceCollision(GameObject other)
 	{
-		if(Input.GetKey (KeyCode.B))
+		if(Input.GetKey (KeyCode.B && if(stateMachine.myType == AnimalType.basicBird)))
 		{
 			Resource resource = other.GetComponent<Resource>();
 			resource.Consume(stateMachine, false);

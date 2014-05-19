@@ -50,12 +50,14 @@
      <Compile Include="Assets\DayNightManager.cs" />
      <Compile Include="Assets\FlashyTransperant.cs" />
      <Compile Include="Assets\FlyingPossesion.cs" />
+     <Compile Include="Assets\Instructions.cs" />
      <Compile Include="Assets\ParticleSystemLayerSet.cs" />
      <Compile Include="Assets\Scripts\AnimalBody.cs" />
      <Compile Include="Assets\Scripts\AnimalBrain.cs" />
      <Compile Include="Assets\Scripts\AnimalMap.cs" />
      <Compile Include="Assets\Scripts\AnimalSensory.cs" />
      <Compile Include="Assets\Scripts\AnimalStateMachine.cs" />
+     <Compile Include="Assets\Scripts\DebugFlag.cs" />
      <Compile Include="Assets\Scripts\DepletableWaterSource.cs" />
      <Compile Include="Assets\Scripts\EagleBody.cs.cs" />
      <Compile Include="Assets\Scripts\FlyingAnimalBody.cs" />

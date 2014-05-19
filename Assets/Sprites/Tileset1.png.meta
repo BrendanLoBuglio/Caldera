@@ -203,5 +203,14 @@ TextureImporter:
         height: 24
       alignment: 0
       pivot: {x: .5, y: .5}
+    - name: BackgroundDirt
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 106
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: .5, y: .5}
   spritePackingTag: 
   userData: 
