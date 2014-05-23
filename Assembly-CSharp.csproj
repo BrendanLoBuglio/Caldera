@@ -59,7 +59,6 @@
      <Compile Include="Assets\Scripts\AnimalStateMachine.cs" />
      <Compile Include="Assets\Scripts\DebugFlag.cs" />
      <Compile Include="Assets\Scripts\DepletableWaterSource.cs" />
-     <Compile Include="Assets\Scripts\EagleBody.cs.cs" />
      <Compile Include="Assets\Scripts\FlyingAnimalBody.cs" />
      <Compile Include="Assets\Scripts\FoodMap.cs" />
      <Compile Include="Assets\Scripts\FoodSource.cs" />

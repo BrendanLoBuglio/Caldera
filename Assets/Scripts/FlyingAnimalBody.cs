@@ -70,6 +70,9 @@ public class FlyingAnimalBody : AnimalBody
 	}
 	
 	void DetermineState(Transform target)
+	//Determines whether the creature will approach with its Long-Range or Short-Range movement, based on how far away it is.
+	//Long range moves toward a point above the target resource/animal's position, and has a slower turning speed.
+	//Short range moves directly toward the target's position.
 	{
 		float distanceFrom = new Vector2 (target.position.x - transform.position.x, target.position.y - transform.position.y).magnitude;
 		

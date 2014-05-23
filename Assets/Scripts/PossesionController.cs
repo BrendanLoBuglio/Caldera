@@ -3,14 +3,14 @@ using System.Collections;
 
 public class PossesionController : MonoBehaviour 
 {
-	public AnimalSensory sensory;
-	public AnimalBody body;
-	public AnimalBrain brain;
-	public PhantomController possesor;
-	public AnimalStateMachine stateMachine;
+	[HideInInspector]public AnimalSensory sensory;
+	[HideInInspector]public AnimalBody body;
+	[HideInInspector]public AnimalBrain brain;
+	[HideInInspector]public PhantomController possesor;
+	[HideInInspector]public AnimalStateMachine stateMachine;
 	public bool isInitialized = false;
 	public float moveSpeed;
-	public SmartJump jumpController;
+	[HideInInspector]public SmartJump jumpController;
 	
 	void Start () 
 	{

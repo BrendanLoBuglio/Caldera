@@ -26,13 +26,16 @@ public class PlatformingPossesion : PossesionController
 	
 	void ResourceCollision(GameObject other)
 	{
-		if(Input.GetKey (KeyCode.B))
+		if(enabled)
 		{
-			Resource resource = other.GetComponent<Resource>();
-			if(stateMachine.myType == AnimalType.turkey)
-				resource.Consume(stateMachine, true);
-			else
-				resource.Consume(stateMachine, false);
+			if(Input.GetKey (KeyCode.B))
+			{
+				Resource resource = other.GetComponent<Resource>();
+				if(stateMachine.myType == AnimalType.turkey)
+					resource.Consume(stateMachine, true);
+				else
+					resource.Consume(stateMachine, false);
+			}
 		}
 	}
 	

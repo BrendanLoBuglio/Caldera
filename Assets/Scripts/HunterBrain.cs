@@ -37,11 +37,7 @@ public class HunterBrain : AnimalBrain
 		//idle state behaviors:
 		if(myState == BehaviorState.idle)
 		{		
-			bool needFood = false;
 			if(stateMachine.nutrition <= stateMachine.eatThreshold * stateMachine.maximumNutrition)
-				needFood = true;
-			
-			if(needFood)
 			{
 				FindTarget(AnimalType.prairieDog);
 			}
@@ -52,6 +48,8 @@ public class HunterBrain : AnimalBrain
 		{
 			body.AIMove(animalTarget.transform);
 		}
+		
+		//I move From "Pursuing" to "Returning" after ActorCollision() is called
 		
 		//Returning state behavior:
 		if(myState == BehaviorState.returnHome && carriedPrey != null)
@@ -88,14 +86,18 @@ public class HunterBrain : AnimalBrain
 	}
 	
 	void ActorCollision(GameObject other) //Depends on a SendMessage Call from AnimalSensory
+	//A little note: I'd like to get all the prey carrying stuff into a separate PreyCarry Script, just so I don't have to replicate code between Hunterbrain and FlyingPossession, as I am now.
 	{
-		if(myState == BehaviorState.pursue && other == animalTarget)
+		if(enabled)
 		{
-			carriedPrey = (GameObject) Instantiate(carryDogPrefab, other.transform.position, Quaternion.identity);
-			carriedPreyOffset = carriedPrey.transform.position - transform.position;
-			other.SendMessage("ActorDeath", SendMessageOptions.RequireReceiver);
-			body.myState = FlyingState.idle;
-			myState = BehaviorState.returnHome;
+			if(myState == BehaviorState.pursue && other == animalTarget)
+			{
+				carriedPrey = (GameObject) Instantiate(carryDogPrefab, other.transform.position, Quaternion.identity);
+				carriedPreyOffset = carriedPrey.transform.position - transform.position;
+				other.SendMessage("ActorDeath", SendMessageOptions.RequireReceiver);
+				body.myState = FlyingState.idle;
+				myState = BehaviorState.returnHome;
+			}
 		}
 	}
 }
