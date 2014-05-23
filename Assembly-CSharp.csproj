@@ -74,6 +74,7 @@
      <Compile Include="Assets\Scripts\PlatformingAnimalBody.cs" />
      <Compile Include="Assets\Scripts\PlatformingPossesion.cs" />
      <Compile Include="Assets\Scripts\PossesionController.cs" />
+     <Compile Include="Assets\Scripts\PrairieDogBrain.cs" />
      <Compile Include="Assets\Scripts\RainManager.cs" />
      <Compile Include="Assets\Scripts\Resource.cs" />
      <Compile Include="Assets\Scripts\SmartJump.cs" />

@@ -23,7 +23,7 @@ public class AnimalMap : MonoBehaviour
 		
 		for (int i = 0; i < prairieDogList.Count; i++)
 		{
-			if (!prairieDogList[i].GetComponent<PlatformingAnimalBody>())
+			if (prairieDogList[i].GetComponent<AnimalStateMachine>().myType != AnimalType.prairieDog)
 			{
 				prairieDogList.RemoveAt(i);
 				i--;

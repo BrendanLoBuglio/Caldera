@@ -43,9 +43,9 @@ public class PlatformingPossesion : PossesionController
 	{
 		Debug.Log ("ActorDeath Called from PlatformingPossession!");
 		brain.enabled = true;
-		if(stateMachine.myType == AnimalType.prairieDog && gameObject.GetComponent<GatherBrain>().pursueTarget.GetComponent<GatherBrain>())
+		if(stateMachine.myType == AnimalType.prairieDog && gameObject.GetComponent<GatherBrain>().pursueTarget.GetComponent<PrairieDogBrain>())
 		{
-			gameObject.GetComponent<GatherBrain>().pursueTarget.GetComponent<GatherBrain>().ClearFriends();
+			gameObject.GetComponent<GatherBrain>().pursueTarget.GetComponent<PrairieDogBrain>().ClearFriends();
 		}
 		else
 		{

@@ -3,19 +3,18 @@ using System.Collections;
 
 public class GatherBrain : AnimalBrain 
 {
-	public AnimalStateMachine stateMachine;
-	private Animator animator;
+	[HideInInspector]public AnimalStateMachine stateMachine;
+	[HideInInspector]public Animator animator;
+	[HideInInspector]public AnimalBody body;
+	[HideInInspector]public FoodMap foodMap;
+	[HideInInspector]public AnimalMap animalMap;
 	public float consumeTimer = 0f; //Timer to keep track of how long I've been drinking
 	public GameObject pursueTarget; //The food or water source that the player is currently targeting	
-	private AnimalBody body;
-	private FoodMap foodMap;
-	private AnimalMap animalMap;
 	
 	public  float conversationRange = 3f;
 	public float converseTime = 6f;
+	public bool closeOrFarConversationAlternator = true;
 	
-	private bool closeOrFarConversationAlternator = true;
-
 	void Start () 
 	{
 		myState = BehaviorState.idle;
@@ -26,7 +25,6 @@ public class GatherBrain : AnimalBrain
 		animalMap = GameObject.FindGameObjectWithTag("Map").GetComponent<AnimalMap>();
 	}
 	
-	
 	void Update ()
 	{
 		//Idle state behaviors:
@@ -34,16 +32,7 @@ public class GatherBrain : AnimalBrain
 		{
 			animator.SetTrigger ("Idle");
 			CheckNeeds();
-			
-			//Checkneeds will ususally change myState, so I have to check if I'm idle again again:
-			if(myState == BehaviorState.idle && animalMap.CountIdleAnimals(AnimalType.prairieDog) >= 2 && stateMachine.myType == AnimalType.prairieDog) 
-			{
-				//Find a buddy to talk to
-				pursueTarget = animalMap.FindClosestAnimal(AnimalType.prairieDog, gameObject, true, closeOrFarConversationAlternator);;
-				pursueTarget.GetComponent<GatherBrain>().FriendRequest(gameObject);
-				myState = BehaviorState.pursue;
-				closeOrFarConversationAlternator = !closeOrFarConversationAlternator;
-			}
+			ConversationIdleDecide();
 		}
 		
 		//Pursuing state behaviors:		
@@ -57,15 +46,7 @@ public class GatherBrain : AnimalBrain
 			animator.SetTrigger ("Pursue");
 			body.AIMove(pursueTarget.transform);
 			
-			//Check if you're within friendlyRange of your friendyFriend
-			if(pursueTarget.GetComponent<GatherBrain>())
-			{
-				if(Vector2.Distance (transform.position, pursueTarget.transform.position) <= conversationRange || Mathf.Abs(transform.position.x - pursueTarget.transform.position.x) <= 0.2f)
-				{
-					myState = BehaviorState.consuming;
-					consumeTimer = 0f;
-				}
-			}
+			ConversationPursueCheck();
 			
 			//Choose a new target if you're targeting eaten/withered food
 			if(pursueTarget.GetComponent<Resource>())
@@ -84,16 +65,9 @@ public class GatherBrain : AnimalBrain
 			//Do nothing for now. I'll stick little eating animations in here
 			consumeTimer += Time.deltaTime;
 			
-			if (pursueTarget.transform != null && pursueTarget.GetComponent<GatherBrain>() && pursueTarget.GetComponent<AnimalStateMachine>().myType == AnimalType.prairieDog)
-			{
-				animator.SetTrigger ("Converse");
-				if(consumeTimer >= converseTime)
-				{
-					consumeTimer = 0f;
-					myState = BehaviorState.idle;
-				}
-			}
-			else if(pursueTarget.transform != null && pursueTarget.CompareTag("Food"))
+			ConversationConsume();
+			
+			if(pursueTarget.transform != null && pursueTarget.CompareTag("Food"))
 			{
 				animator.SetTrigger ("Consume");
 				if(consumeTimer >= stateMachine.eatTime)
@@ -114,7 +88,11 @@ public class GatherBrain : AnimalBrain
 		}
 	}
 	
-	void CheckNeeds()
+	public virtual void ConversationIdleDecide() {}
+	public virtual void ConversationPursueCheck() {}
+	public virtual void ConversationConsume() {}
+	
+	public void CheckNeeds()
 	{
 		//It's important to note that FindTarget will change myState to pursue no matter which resource is chosen
 		bool needFood = false, needWater = false;
@@ -144,35 +122,6 @@ public class GatherBrain : AnimalBrain
 		myState = BehaviorState.pursue;
 	}
 	
-	public void FriendRequest(GameObject potentialFriend)
-	{
-		if(potentialFriend.GetComponent<AnimalBrain>().myState == BehaviorState.idle)
-		{
-			CheckNeeds();
-			if(myState == BehaviorState.idle)
-			{
-				pursueTarget = potentialFriend;
-				myState = BehaviorState.pursue;
-			}
-			else
-			{
-				Debug.Log ("I got a request, but I'm not squeaking idle!");
-				potentialFriend.GetComponent<GatherBrain>().ClearFriends();
-			}
-		}
-		else
-		{
-			Debug.Log ("I got a request, but my buddy isn't squeaking idle!");
-			potentialFriend.GetComponent<GatherBrain>().ClearFriends();
-		}
-	}
-	
-	public void ClearFriends()
-	{
-		myState = BehaviorState.idle;
-		pursueTarget = null;
-	}
-	
 	public virtual void ResourceCollision(GameObject other) //Depends on a SendMessage Call from AnimalSensory
 	{
 		if(myState == BehaviorState.pursue && other == pursueTarget && other.GetComponent<Resource>() != null)
@@ -184,12 +133,8 @@ public class GatherBrain : AnimalBrain
 		}
 	}
 	
-	public void ActorDeath()
+	public virtual void ActorDeath()
 	{
-		if(pursueTarget != null && pursueTarget.GetComponent<GatherBrain>())
-		{
-			pursueTarget.GetComponent<GatherBrain>().ClearFriends();
-			Destroy(gameObject);
-		}
+		Destroy(gameObject);
 	}
 }

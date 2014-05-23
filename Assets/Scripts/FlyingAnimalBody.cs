@@ -5,6 +5,8 @@ public enum FlyingState{longRangeApproach, shortRangeApproach, idle}
 
 public class FlyingAnimalBody : AnimalBody 
 {
+	public float longRangeMoveSpeed = 5f;
+	public float shortRangeMoveSpeed = 6f;
 	public float closeToFoodTurnSpeed = 15f;
 	public float farFromFoodTurnSpeed = 5f;
 	private float turnSpeed = 5f;
@@ -42,6 +44,7 @@ public class FlyingAnimalBody : AnimalBody
 		DetermineState(target);
 		if(myState == FlyingState.longRangeApproach)
 		{
+			moveSpeed = longRangeMoveSpeed;
 			turnSpeed = farFromFoodTurnSpeed;
 			Vector2 targetEntryPoint = new Vector2 (target.position.x, target.position.y + heightAboveTarget);
 			targetDirection = Mathf.Rad2Deg * Mathf.Atan2 (targetEntryPoint.y - transform.position.y, targetEntryPoint.x - transform.position.x);
@@ -53,6 +56,7 @@ public class FlyingAnimalBody : AnimalBody
 		}
 		else if(myState == FlyingState.shortRangeApproach)
 		{
+			moveSpeed = shortRangeMoveSpeed;
 			turnSpeed = closeToFoodTurnSpeed;
 			targetDirection = Mathf.Rad2Deg * Mathf.Atan2 (target.position.y - transform.position.y, target.position.x - transform.position.x); 
 		}

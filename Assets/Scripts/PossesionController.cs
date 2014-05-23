@@ -38,7 +38,7 @@ public class PossesionController : MonoBehaviour
 		
 		if(stateMachine.myType == AnimalType.prairieDog && gameObject.GetComponent<GatherBrain>().pursueTarget.GetComponent<GatherBrain>())
 		{
-			gameObject.GetComponent<GatherBrain>().ClearFriends();
+			gameObject.GetComponent<PrairieDogBrain>().ClearFriends();
 		}
 		body.enabled = false;
 		brain.enabled = false;
