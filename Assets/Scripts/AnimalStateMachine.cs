@@ -29,5 +29,6 @@ public class AnimalStateMachine : MonoBehaviour {
 	{
 		nutrition -= Time.deltaTime;
 		hydration -= Time.deltaTime;
+		//Debug.Log ("ANIMAL STATE MACHINE IS OFF!!!!");
 	}
 }

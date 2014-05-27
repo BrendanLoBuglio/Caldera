@@ -18,7 +18,6 @@ public class FlyingAnimalBody : AnimalBody
 	private AnimalSensory sensory;
 	private bool aiMoveWasCalled = false;
 	
-	
 	void Start () 
 	{
 		brain = gameObject.GetComponent<AnimalBrain>();
@@ -26,7 +25,7 @@ public class FlyingAnimalBody : AnimalBody
 	}
 	
 	void Update ()
-	{
+	{	
 		//Reset the direction to Up if you're not currently pursuing
 		if(brain.myState != BehaviorState.pursue && brain.myState != BehaviorState.returnHome)
 		{
@@ -120,4 +119,17 @@ public class FlyingAnimalBody : AnimalBody
 		if(myState == FlyingState.shortRangeApproach)
 			myState = FlyingState.longRangeApproach;
 	}
+	
+	/*public Vector2 ChooseWanderPointInAir()
+	{
+		Vector2 wanderPoint = (Vector2)transform.position + (Vector2.up * Random.Range(-2f, 2f)) + (Vector2.right * Random.Range (-2f, 2f));
+		Vector2 distanceBetween = wanderPoint - (Vector2)transform.position;
+		RaycastHit2D vectorOfTarget = Physics2D.Raycast(transform.position, distanceBetween.normalized, distanceBetween.magnitude, sensory.floorMask);
+		if(Physics2D.Raycast(transform.position, distanceBetween.normalized, distanceBetween.magnitude, sensory.floorMask))
+		{
+			Debug.Log ("Collision at " + vectorOfTarget.point.x + ", " + vectorOfTarget.point.y + "!");
+			wanderPoint = ChooseWanderPoint()InAir;
+		}
+		return wanderPoint; 
+	}*/
 }

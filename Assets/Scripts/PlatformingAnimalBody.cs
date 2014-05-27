@@ -14,8 +14,7 @@ public class PlatformingAnimalBody : AnimalBody
 	void Start()
 	{
 		sensory = gameObject.GetComponent<AnimalSensory>();
-		moveSpeed = 5f; // The amount of unity units I move each frame
-		//rigidbody = gameObject.GetComponent<Rigidbody2D>();
+		moveSpeed = 5f; // The amount of unity units I move each frame		
 		moveState = PlatformingState.running;
 		smartJump = gameObject.GetComponent<SmartJump>();
 	}

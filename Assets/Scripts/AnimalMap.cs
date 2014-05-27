@@ -7,17 +7,20 @@ public enum AnimalType {prairieDog, basicBird, eagle, turkey}
 public class AnimalMap : MonoBehaviour 
 {
 	public List<GameObject> prairieDogList;
+	public List<GameObject> idlePrairieDogList;
 	void Start () 
 	{
 		PopulatePrairieDogList();
+		PopulateIdlePrairieDogList();
 	}
 	
 	void Update () 
 	{
 		PopulatePrairieDogList();
+		PopulateIdlePrairieDogList();
 	}
 	
-	void PopulatePrairieDogList()
+	public void PopulatePrairieDogList()
 	{
 		prairieDogList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Fauna"));
 		
@@ -30,17 +33,36 @@ public class AnimalMap : MonoBehaviour
 			}
 		}
 	}
+	public void PopulateIdlePrairieDogList()
+	{
+		idlePrairieDogList = new List<GameObject>();
+		
+		PopulatePrairieDogList();		
+		
+		for (int i = 0; i < prairieDogList.Count; i++)
+		{
+			if(prairieDogList[i].GetComponent<PrairieDogBrain>().myState == BehaviorState.idle)
+				idlePrairieDogList.Add(prairieDogList[i]);
+		}
+	}
 	
 	public GameObject FindClosestAnimal(AnimalType animal, GameObject searchingAnimal, bool idleOnly, bool checkFurthest)
 	{
 		PopulatePrairieDogList();
+		PopulateIdlePrairieDogList();
 		Vector2 myPosition = searchingAnimal.transform.position;
 		
 		List<GameObject> animalList = new List<GameObject>();
-		if(animal == AnimalType.prairieDog)
+		if(animal == AnimalType.prairieDog && !idleOnly)
 			animalList = prairieDogList;
-		
-		GameObject closest = animalList[0];
+		if(animal == AnimalType.prairieDog && idleOnly)
+			animalList = idlePrairieDogList;
+			
+		GameObject closest;
+		if(animalList[0] != searchingAnimal)
+			closest = animalList[0];
+		else
+			closest = animalList[1];
 		
 		for (int i = 0; i < animalList.Count; i++)
 		{
@@ -49,30 +71,9 @@ public class AnimalMap : MonoBehaviour
 				float currentDistance = Vector2.Distance(closest.transform.position, myPosition);
 				float newDistance = Vector2.Distance(animalList[i].transform.position, myPosition);
 				if((!checkFurthest && newDistance < currentDistance) || (checkFurthest && newDistance > currentDistance))
-				{
-					if(!idleOnly || animalList[i].GetComponent<AnimalBrain>().myState == BehaviorState.idle)
-						closest = animalList[i];
-				}
+					closest = animalList[i];
 			}
 		}
 		return closest;
-	}
-	
-	public float CountIdleAnimals(AnimalType animal)
-	{
-		PopulatePrairieDogList();
-		float idleAnimalCount = 0;
-		
-		List<GameObject> animalList = new List<GameObject>();
-		if(animal == AnimalType.prairieDog)
-			animalList = prairieDogList;
-		
-		for (int i = 0; i < animalList.Count; i++)
-		{
-			if(animalList[i].GetComponent<AnimalBrain>().myState == BehaviorState.idle);
-				idleAnimalCount++;	
-		}
-		
-		return idleAnimalCount;
 	}
 }

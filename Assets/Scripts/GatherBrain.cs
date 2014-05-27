@@ -8,12 +8,8 @@ public class GatherBrain : AnimalBrain
 	[HideInInspector]public AnimalBody body;
 	[HideInInspector]public FoodMap foodMap;
 	[HideInInspector]public AnimalMap animalMap;
-	public float consumeTimer = 0f; //Timer to keep track of how long I've been drinking
-	public GameObject pursueTarget; //The food or water source that the player is currently targeting	
-	
-	public  float conversationRange = 3f;
-	public float converseTime = 6f;
-	public bool closeOrFarConversationAlternator = true;
+	public float consumeTimer = 0f; //Timer to keep track of how long I've been drinking	
+	public GameObject pursueTarget; //The food or water source that the player is currently targeting
 	
 	void Start () 
 	{
@@ -23,6 +19,7 @@ public class GatherBrain : AnimalBrain
 		body = gameObject.GetComponent<AnimalBody>();
 		foodMap = GameObject.FindGameObjectWithTag("Map").GetComponent<FoodMap>();
 		animalMap = GameObject.FindGameObjectWithTag("Map").GetComponent<AnimalMap>();
+		PrairieBrainStart(); //Only meaningful in the child class PrairieDogBrain
 	}
 	
 	void Update ()
@@ -32,7 +29,7 @@ public class GatherBrain : AnimalBrain
 		{
 			animator.SetTrigger ("Idle");
 			CheckNeeds();
-			ConversationIdleDecide();
+			ConversationIdleDecide(); //Only meaningful in the child class PrairieDogBrain
 		}
 		
 		//Pursuing state behaviors:		
@@ -46,7 +43,7 @@ public class GatherBrain : AnimalBrain
 			animator.SetTrigger ("Pursue");
 			body.AIMove(pursueTarget.transform);
 			
-			ConversationPursueCheck();
+			ConversationPursueCheck(); //Only meaningful in the child class PrairieDogBrain
 			
 			//Choose a new target if you're targeting eaten/withered food
 			if(pursueTarget.GetComponent<Resource>())
@@ -65,9 +62,9 @@ public class GatherBrain : AnimalBrain
 			//Do nothing for now. I'll stick little eating animations in here
 			consumeTimer += Time.deltaTime;
 			
-			ConversationConsume();
+			ConversationConsume(); //Only meaningful in the child class PrairieDogBrain
 			
-			if(pursueTarget.transform != null && pursueTarget.CompareTag("Food"))
+			if(pursueTarget != null && pursueTarget.CompareTag("Food"))
 			{
 				animator.SetTrigger ("Consume");
 				if(consumeTimer >= stateMachine.eatTime)
@@ -76,7 +73,7 @@ public class GatherBrain : AnimalBrain
 					myState = BehaviorState.idle;
 				}
 			}
-			else if(pursueTarget.transform != null && pursueTarget.CompareTag ("Water"))
+			else if(pursueTarget != null && pursueTarget.CompareTag ("Water"))
 			{
 				animator.SetTrigger ("Consume");
 				if(consumeTimer >= stateMachine.drinkTime )
@@ -88,6 +85,7 @@ public class GatherBrain : AnimalBrain
 		}
 	}
 	
+	public virtual void PrairieBrainStart() {}
 	public virtual void ConversationIdleDecide() {}
 	public virtual void ConversationPursueCheck() {}
 	public virtual void ConversationConsume() {}
