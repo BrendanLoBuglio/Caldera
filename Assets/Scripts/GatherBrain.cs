@@ -8,8 +8,12 @@ public class GatherBrain : AnimalBrain
 	[HideInInspector]public AnimalBody body;
 	[HideInInspector]public FoodMap foodMap;
 	[HideInInspector]public AnimalMap animalMap;
-	public float consumeTimer = 0f; //Timer to keep track of how long I've been drinking	
 	public GameObject pursueTarget; //The food or water source that the player is currently targeting
+	public float consumeTimer = 0f; //Timer to keep track of how long I've been drinking
+	public float idleTime = 5f;
+	public float idleTimer = 0f;
+	private Vector2 wanderTarget;
+	private bool needNewWanderTarget = true;
 	
 	void Start () 
 	{
@@ -29,19 +33,37 @@ public class GatherBrain : AnimalBrain
 		{
 			animator.SetTrigger ("Idle");
 			CheckNeeds();
-			ConversationIdleDecide(); //Only meaningful in the child class PrairieDogBrain
+			
+			if(idleTimer < idleTime)
+			{
+				if(needNewWanderTarget)
+				{
+					wanderTarget = new Vector2(transform.position.x + Random.Range(-4f, 4f), 0);
+					needNewWanderTarget = false;
+				}
+				if(body.AIHop(wanderTarget))
+				{
+					//In addition to moving the actor with its hopping movement, AIHop evaluates to true when the actor has "passed" the target
+					needNewWanderTarget = true;
+				}
+			}
+			
+			idleTimer += Time.deltaTime;
+			if(idleTimer > idleTime)
+				ConversationIdleDecide(); //Only meaningful in the child class PrairieDogBrain
 		}
 		
 		//Pursuing state behaviors:		
 		if( myState == BehaviorState.pursue && pursueTarget == null)
 		{
 			myState = BehaviorState.idle;
+			idleTimer = 0f;
 		}
 		
 		if(myState == BehaviorState.pursue)
 		{		
 			animator.SetTrigger ("Pursue");
-			body.AIMove(pursueTarget.transform);
+			body.AIMove(pursueTarget.transform.position);
 			
 			ConversationPursueCheck(); //Only meaningful in the child class PrairieDogBrain
 			
@@ -70,6 +92,7 @@ public class GatherBrain : AnimalBrain
 				if(consumeTimer >= stateMachine.eatTime)
 				{
 					consumeTimer = 0f;
+					idleTimer = 0f;
 					myState = BehaviorState.idle;
 				}
 			}
@@ -79,6 +102,7 @@ public class GatherBrain : AnimalBrain
 				if(consumeTimer >= stateMachine.drinkTime )
 				{
 					consumeTimer = 0f;
+					idleTimer = 0f;
 					myState = BehaviorState.idle;
 				}
 			}

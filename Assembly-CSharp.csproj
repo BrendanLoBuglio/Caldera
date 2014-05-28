@@ -52,6 +52,7 @@
      <Compile Include="Assets\FlyingPossesion.cs" />
      <Compile Include="Assets\Instructions.cs" />
      <Compile Include="Assets\ParticleSystemLayerSet.cs" />
+     <Compile Include="Assets\RandomSeeder.cs" />
      <Compile Include="Assets\Scripts\AnimalBody.cs" />
      <Compile Include="Assets\Scripts\AnimalBrain.cs" />
      <Compile Include="Assets\Scripts\AnimalMap.cs" />
@@ -66,6 +67,7 @@
      <Compile Include="Assets\Scripts\GoToScene.cs" />
      <Compile Include="Assets\Scripts\HUD.cs" />
      <Compile Include="Assets\Scripts\HunterBrain.cs" />
+     <Compile Include="Assets\Scripts\JumpController.cs" />
      <Compile Include="Assets\Scripts\LeftRightBump.cs" />
      <Compile Include="Assets\Scripts\LevelMap.cs" />
      <Compile Include="Assets\Scripts\Phantom.cs" />
@@ -77,7 +79,6 @@
      <Compile Include="Assets\Scripts\PrairieDogBrain.cs" />
      <Compile Include="Assets\Scripts\RainManager.cs" />
      <Compile Include="Assets\Scripts\Resource.cs" />
-     <Compile Include="Assets\Scripts\SmartJump.cs" />
      <Compile Include="Assets\Scripts\TestVectorAnimalBody.cs" />
      <Compile Include="Assets\Scripts\WaterSource.cs" />
      <Compile Include="Assets\Scripts\Waypoint.cs" />

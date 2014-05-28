@@ -10,7 +10,7 @@ public class PossesionController : MonoBehaviour
 	[HideInInspector]public AnimalStateMachine stateMachine;
 	public bool isInitialized = false;
 	public float moveSpeed;
-	[HideInInspector]public SmartJump jumpController;
+	[HideInInspector]public JumpController jumpController;
 	
 	void Start () 
 	{
@@ -28,7 +28,7 @@ public class PossesionController : MonoBehaviour
 		isInitialized = true;
 		
 		if(stateMachine.myType == AnimalType.prairieDog)
-			jumpController = gameObject.GetComponent<SmartJump>();
+			jumpController = gameObject.GetComponent<JumpController>();
 	}
 	
 	void OnEnable () 

@@ -38,14 +38,14 @@ public class FlyingAnimalBody : AnimalBody
 		aiMoveWasCalled = false;
 	}
 	
-	public override void AIMove(Transform target)
+	public override void AIMove(Vector2 target)
 	{
 		DetermineState(target);
 		if(myState == FlyingState.longRangeApproach)
 		{
 			moveSpeed = longRangeMoveSpeed;
 			turnSpeed = farFromFoodTurnSpeed;
-			Vector2 targetEntryPoint = new Vector2 (target.position.x, target.position.y + heightAboveTarget);
+			Vector2 targetEntryPoint = new Vector2 (target.x, target.y + heightAboveTarget);
 			targetDirection = Mathf.Rad2Deg * Mathf.Atan2 (targetEntryPoint.y - transform.position.y, targetEntryPoint.x - transform.position.x);
 			
 			if(sensory.distanceFromGround <= 3f && Mathf.Sin (targetDirection * Mathf.Deg2Rad) < 0)
@@ -57,7 +57,7 @@ public class FlyingAnimalBody : AnimalBody
 		{
 			moveSpeed = shortRangeMoveSpeed;
 			turnSpeed = closeToFoodTurnSpeed;
-			targetDirection = Mathf.Rad2Deg * Mathf.Atan2 (target.position.y - transform.position.y, target.position.x - transform.position.x); 
+			targetDirection = Mathf.Rad2Deg * Mathf.Atan2 (target.y - transform.position.y, target.x - transform.position.x); 
 		}
 		targetDirection = AccountForWalls(targetDirection);
 		
@@ -72,12 +72,12 @@ public class FlyingAnimalBody : AnimalBody
 		aiMoveWasCalled = true;
 	}
 	
-	void DetermineState(Transform target)
+	void DetermineState(Vector2 target)
 	//Determines whether the creature will approach with its Long-Range or Short-Range movement, based on how far away it is.
 	//Long range moves toward a point above the target resource/animal's position, and has a slower turning speed.
 	//Short range moves directly toward the target's position.
 	{
-		float distanceFrom = new Vector2 (target.position.x - transform.position.x, target.position.y - transform.position.y).magnitude;
+		float distanceFrom = new Vector2 (target.x - transform.position.x, target.y - transform.position.y).magnitude;
 		
 		if(distanceFrom > heightAboveTarget + 1f && myState != FlyingState.shortRangeApproach)
 		{

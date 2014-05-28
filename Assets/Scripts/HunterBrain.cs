@@ -46,7 +46,7 @@ public class HunterBrain : AnimalBrain
 		//Pursuing state behaviors:
 		if(myState == BehaviorState.pursue)
 		{
-			body.AIMove(animalTarget.transform);
+			body.AIMove(animalTarget.transform.position);
 		}
 		
 		//I move From "Pursuing" to "Returning" after ActorCollision() is called
@@ -55,7 +55,7 @@ public class HunterBrain : AnimalBrain
 		if(myState == BehaviorState.returnHome && carriedPrey != null)
 		{
 			carriedPrey.transform.position = (new Vector2(transform.position.x, transform.position.y) + carriedPreyOffset);
-			body.AIMove (home.transform);
+			body.AIMove (home.transform.position);
 			
 			if(sensory.objectAbove == home && sensory.distanceFromGround <= 1.5f)
 			{

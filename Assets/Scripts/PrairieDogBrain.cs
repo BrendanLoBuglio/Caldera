@@ -49,6 +49,7 @@ public class PrairieDogBrain : GatherBrain
 			if(consumeTimer >= converseTime)
 			{
 				consumeTimer = 0f;
+				idleTimer = 0f;
 				myState = BehaviorState.idle;
 				pursueTarget.GetComponent<PrairieDogBrain>().ClearFriends();
 				ClearFriends();
@@ -83,6 +84,7 @@ public class PrairieDogBrain : GatherBrain
 	public void ClearFriends()
 	{
 		myState = BehaviorState.idle;
+		idleTimer = 0f;
 		pursueTarget = null;
 	}
 	

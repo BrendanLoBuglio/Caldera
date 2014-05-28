@@ -22,7 +22,7 @@ public class Waypoint : MonoBehaviour
 	{	
 		if(nav == AnimalNavigation.jump)
 		{
-			animalBody.NewJump(jump);
+			animalBody.WaypointJump(jump);
 		}
 	}
 	

@@ -1,26 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum PlatformingState {running, jumping}
+public enum PlatformingState {running, jumping, hopping}
 
 public class PlatformingAnimalBody : AnimalBody 
 {
 	public bool goingLeft = false;
 	public bool goingRight = false;
 	private PlatformingState moveState;
-	private SmartJump smartJump;
+	private JumpController jumpController;
 	private AnimalSensory sensory;
+	
+	public Vector2 hopDistance = new Vector2(1, 0.3f);
 
 	void Start()
 	{
 		sensory = gameObject.GetComponent<AnimalSensory>();
 		moveSpeed = 5f; // The amount of unity units I move each frame		
 		moveState = PlatformingState.running;
-		smartJump = gameObject.GetComponent<SmartJump>();
+		jumpController = gameObject.GetComponent<JumpController>();
 	}
 	
 	
-	public override void AIMove(Transform target)
+	public override void AIMove(Vector2 target)
 	{
 		CompareTargetPosition(target);
 		
@@ -37,7 +39,7 @@ public class PlatformingAnimalBody : AnimalBody
 		if(moveState == PlatformingState.jumping)
 		{
 			//I have a force on me, so I'm not doing much right now
-			if(!smartJump.isJumping)
+			if(!jumpController.isJumping)
 			{
 				moveState = PlatformingState.running;
 			}
@@ -47,9 +49,39 @@ public class PlatformingAnimalBody : AnimalBody
 		transform.Translate (moveTo);
 	}
 	
-	void CompareTargetPosition(Transform target)
+	public override bool AIHop(Vector2 target)
 	{
-		Vector2 positionDifference = target.position - transform.position;
+		//Returns true if you've passed the target
+		if(goingRight && transform.position.x > target.x)
+		{
+			goingRight = false; //Set to false to account for when the wanderTarget moves to the other side of me
+			return true;
+		}
+		else if (goingLeft && transform.position.x < target.x)
+		{
+			goingLeft = false; //Set to false to account for when the wanderTarget moves to the other side of me
+			return true;
+		}
+		
+			
+		CompareTargetPosition(target);
+		if(!jumpController.isJumping)
+		{
+			moveState = PlatformingState.running;
+		}
+		if(sensory.isGrounded && moveState == PlatformingState.running)
+		{
+			moveState = PlatformingState.jumping;
+			jumpController.DumbJump(new Vector2(hopDistance.x * (goingRight ? 1f : -1f), hopDistance.y));
+		}
+
+			
+		return false;
+	}
+	
+	void CompareTargetPosition(Vector2 target)
+	{
+		Vector2 positionDifference = target - (Vector2)transform.position;
 		
 		if(positionDifference.x > 0)
 			goingRight = true;
@@ -63,20 +95,19 @@ public class PlatformingAnimalBody : AnimalBody
 	
 	void WaypointCollision(GameObject other) //Receives a SendMessage call from AnimalBrain
 	{
-		if (other.CompareTag ("Waypoint") && moveState == PlatformingState.running)
+		if (other.CompareTag ("Waypoint") && sensory.isGrounded)
 		{
 			Waypoint waypoint = other.GetComponent<Waypoint>();
 			waypoint.Navigate(this);
 		}
 	}
 	
-	public void NewJump (Vector2 jumpDistance)
+	public void WaypointJump (Vector2 jumpDistance)
 	{
-		if(!smartJump.isJumping && sensory.isGrounded)
+		if( sensory.isGrounded)
 		{
 			moveState = PlatformingState.jumping;
-			smartJump.Jump(jumpDistance);
-		}
-		
+			jumpController.SmartJump(jumpDistance);
+		}	
 	}
 }
