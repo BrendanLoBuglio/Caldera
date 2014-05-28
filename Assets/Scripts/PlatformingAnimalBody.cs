@@ -5,6 +5,8 @@ public enum PlatformingState {running, jumping, hopping}
 
 public class PlatformingAnimalBody : AnimalBody 
 {
+	public bool flyIntoTheSun = false;
+
 	public bool goingLeft = false;
 	public bool goingRight = false;
 	private PlatformingState moveState;
@@ -21,6 +23,19 @@ public class PlatformingAnimalBody : AnimalBody
 		jumpController = gameObject.GetComponent<JumpController>();
 	}
 	
+	void Update()  
+	{
+		if(Input.GetKey (KeyCode.P))
+		{
+			jumpController.DumbJump(new Vector2(3f, 3f));
+			Debug.Log ("I just fuckin' jumped, and my Velocity is now (" + rigidbody2D.velocity.x + "," + rigidbody2D.velocity.y + ")");
+		}
+		if(flyIntoTheSun)
+		{
+			rigidbody2D.velocity = new Vector2(0f, 99999f);
+			Debug.Log ("I'm FLYYYYYYYYYYYYYYYYYYYYYING INTO THE SUN, BABY! (I'm fucking crazy)");
+		}
+	}
 	
 	public override void AIMove(Vector2 target)
 	{

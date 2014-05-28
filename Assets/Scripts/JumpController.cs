@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum JumpStage {NotJumping, SmartJumpVertical, SmartJumpHorizontal, DumbJump}
+public enum JumpStage {NotJumping, SmartJumpVertical, SmartJumpHorizontal, DumbJumpRise, DumbJumpFall}
 
 public class JumpController : MonoBehaviour 
 {
 	public bool debugMode = false;
 	public Vector2 positionDifference;
 	public float yExcess = 0.5f;
-	[HideInInspector] public bool isJumping = false;
+	public bool isJumping = false;
 	private Vector2 jumpSpeed; // Changes depending on the required distance of the jump
 
 	private float relativeYExcess;
+	private Vector2 jumpVelocityDumb;
 	private Vector2 jumpVelocityStage1;
 	private Vector2 jumpVelocityStage2;
 	private float gravityAcceleration;
@@ -41,7 +42,8 @@ public class JumpController : MonoBehaviour
 	{
 		float xVel = (gravityAcceleration * positionDifference.x) / Mathf.Sqrt(2f*gravityAcceleration*positionDifference.y);
 		float yVel = Mathf.Sqrt(2f*gravityAcceleration * positionDifference.y);
-		jumpVelocityStage1 = new Vector2 (xVel, yVel);
+		jumpVelocityDumb = new Vector2 (xVel, yVel);
+		Debug.DrawLine(oldPosition, oldPosition + positionDifference, Color.magenta);
 	}
 
 	void Update()
@@ -49,6 +51,10 @@ public class JumpController : MonoBehaviour
 		if(Input.GetKey (KeyCode.Space) && !isJumping && debugMode)
 		{
 			SmartJump(positionDifference);
+		}		
+		if(isJumping && jumpStage == JumpStage.DumbJumpRise && transform.position.y - yBeforeJump >= positionDifference.y - 0.1f)
+		{
+			jumpStage = JumpStage.DumbJumpFall;
 		}
 		
 		if(isJumping && jumpStage == JumpStage.SmartJumpVertical && transform.position.y - yBeforeJump >= positionDifference.y)
@@ -57,14 +63,14 @@ public class JumpController : MonoBehaviour
 			rigidbody2D.velocity = jumpVelocityStage2;
 			jumpStage = JumpStage.SmartJumpHorizontal;
 		}
-		if(isJumping && (jumpStage == JumpStage.SmartJumpHorizontal || jumpStage == JumpStage.DumbJump) && sensory.isGrounded)
+		if(isJumping && (jumpStage == JumpStage.SmartJumpHorizontal || jumpStage == JumpStage.DumbJumpFall) && sensory.isGrounded)
 		{
 			rigidbody2D.velocity = Vector2.zero;
 			jumpStage = JumpStage.NotJumping;
 			isJumping = false; 
 		}
 		
-		if(isJumping && jumpStage == JumpStage.DumbJump)
+		if(isJumping && (jumpStage == JumpStage.DumbJumpFall || jumpStage == JumpStage.DumbJumpRise))
 		{
 			Debug.DrawLine(oldPosition, oldPosition + positionDifference, Color.magenta);
 		}
@@ -81,11 +87,13 @@ public class JumpController : MonoBehaviour
 	public void DumbJump (Vector2 newPositionDifference)
 	{
 		oldPosition = transform.position;
+		
 		positionDifference = newPositionDifference;
 		isJumping = true;
 		CalculateDumbJump();
-		rigidbody2D.velocity = jumpVelocityStage1;
-		jumpStage = JumpStage.DumbJump;
+		rigidbody2D.velocity = jumpVelocityDumb;
+		yBeforeJump = transform.position.y;
+		jumpStage = JumpStage.DumbJumpRise;
 	}
 	
 }

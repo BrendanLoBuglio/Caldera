@@ -1,12 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlatformingAnimalBody.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\JumpController.cs">
     <Files>
-      <File FileName="Assets\Scripts\GatherBrain.cs" Line="40" Column="6" />
-      <File FileName="Assets\Scripts\PlatformingAnimalBody.cs" Line="63" Column="16" />
-      <File FileName="Assets\Scripts\JumpController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Waypoint.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AnimalBody.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PrairieDogBrain.cs" Line="15" Column="48" />
+      <File FileName="Assets\Scripts\GatherBrain.cs" Line="37" Column="17" />
+      <File FileName="Assets\Scripts\PlatformingAnimalBody.cs" Line="97" Column="44" />
+      <File FileName="Assets\Scripts\JumpController.cs" Line="55" Column="123" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

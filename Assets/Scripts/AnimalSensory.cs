@@ -5,7 +5,7 @@ public class AnimalSensory : MonoBehaviour
 {
 
 	[HideInInspector] public float height;
-	public bool isGrounded = true;
+	public bool isGrounded = false;
 	public float distanceFromGround = 0f;
 	public float distanceFromLeft = 0f;
 	public float distanceFromRight = 0f;
@@ -17,9 +17,16 @@ public class AnimalSensory : MonoBehaviour
 	
 	public GameObject objectAbove;
 	
-	void Start () 
+	void Awake () 
 	{
 		height = Mathf.Abs (renderer.bounds.min.y - renderer.bounds.max.y);
+		CheckResourceCollision();
+		CheckWaypointCollision();
+		CheckActorCollision();
+		CheckIfGrounded();
+		CheckDistanceFromGround();
+		CheckDistanceFromWalls();
+		CheckDistanceFromCeiling();
 	}
 	
 	
