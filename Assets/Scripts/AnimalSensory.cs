@@ -14,6 +14,7 @@ public class AnimalSensory : MonoBehaviour
 	public LayerMask waypointMask; //Layermask used to discriminate against all but waypoint collisions
 	public LayerMask floorMask; //LayerMask used to discriminate against all but collisions with the ground
 	public LayerMask actorMask; //LayerMask used to discriminate against all but collisions with other actors
+	public LayerMask homeMask; //LayerMask used to discriminate against all but actor-specific interaction objects (e.g. Prairie Dog Homes)
 	
 	public GameObject objectAbove;
 	
@@ -23,6 +24,7 @@ public class AnimalSensory : MonoBehaviour
 		CheckResourceCollision();
 		CheckWaypointCollision();
 		CheckActorCollision();
+		CheckHomeCollision();
 		CheckIfGrounded();
 		CheckDistanceFromGround();
 		CheckDistanceFromWalls();
@@ -35,6 +37,7 @@ public class AnimalSensory : MonoBehaviour
 		CheckResourceCollision();
 		CheckWaypointCollision();
 		CheckActorCollision();
+		CheckHomeCollision();
 		CheckIfGrounded();
 		CheckDistanceFromGround();
 		CheckDistanceFromWalls();
@@ -83,6 +86,21 @@ public class AnimalSensory : MonoBehaviour
 		{
 			GameObject other = hit.transform.gameObject;
 			gameObject.SendMessage ("ActorCollision", other, SendMessageOptions.DontRequireReceiver);
+		}
+	}
+	
+	void CheckHomeCollision()
+	{
+		//Cast a ray to determine whether I've hit an actor:
+		Vector2 rayOrigin = new Vector2(transform.position.x + 0.025f, transform.position.y + (height/2.0f));
+		RaycastHit2D hit = Physics2D.Raycast (rayOrigin, -Vector2.up, height, homeMask.value);
+		Vector2 drawHelper = new Vector2(rayOrigin.x, rayOrigin.y - height);
+		Debug.DrawLine (rayOrigin,drawHelper, Color.cyan);
+		
+		if(hit.transform != null)
+		{
+			GameObject other = hit.transform.gameObject;
+			gameObject.SendMessage ("HomeCollision", other, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 	

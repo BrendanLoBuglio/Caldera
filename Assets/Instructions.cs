@@ -3,14 +3,7 @@ using System.Collections;
 
 public class Instructions : MonoBehaviour 
 {
-	private Renderer renderer;
-	private float alpha = 0;
-	
-	void Start () 
-	{
-		renderer = gameObject.GetComponent<SpriteRenderer>();
-	}
-	
+	private float alpha = 0;	
 	
 	void Update () 
 	{

@@ -19,7 +19,7 @@ public class PhantomMovement : MonoBehaviour {
 		if(!controller.isPossessing)
 		{
 			float xMove = 0, yMove = 0;
-		
+			
 			if(Input.GetAxis("Horizontal") > 0 && transform.position.x < tracker.cameraBox.xMax - 0.2f)
 			{
 				xMove = Input.GetAxis ("Horizontal") * speed * Time.deltaTime;

@@ -6,6 +6,9 @@ public class PrairieDogBrain : GatherBrain
 	public  float conversationRange = 3f;
 	public float converseTime = 6f;
 	public bool closeOrFarConversationAlternator = true; //randomly assigned to true or false
+	public prairieDogBase myBase;
+	public GameObject carriedFoodPrefab;
+	private GameObject carriedFood;
 
 	public override void PrairieBrainStart()
 	{
@@ -81,6 +84,57 @@ public class PrairieDogBrain : GatherBrain
 		}
 	}
 	
+	public override void StashFood()
+	{
+		FindTarget(ResourceType.food, BehaviorState.pursueStash);
+	}
+	
+	public override void StashCollisionCheck(GameObject other)
+	{
+		if(myState == BehaviorState.pursueStash && other == pursueTarget && other.GetComponent<Resource>() != null)
+		{
+			Resource resource = other.GetComponent<Resource>();
+			resource.Stash(stateMachine);
+			carriedFood = (GameObject)Instantiate(carriedFoodPrefab, transform.position, Quaternion.identity);
+			pursueTarget = myBase.GetEmptyStoragePoint();
+			myState = BehaviorState.returnHome;
+		}
+	}
+	
+	public override void ReturnStash()
+	{
+		if(myState == BehaviorState.returnHome)
+		{
+			if(pursueTarget.GetComponent<StoragePointSource>().isGrown == true)
+			{
+				if(myBase.hasEmptyStorage)
+					pursueTarget = myBase.GetEmptyStoragePoint();
+				else
+				{
+					Destroy(carriedFood);
+					myState = BehaviorState.idle;
+				}
+			}
+			carriedFood.transform.position = (Vector2)transform.position + Vector2.up;
+			animator.SetTrigger ("Pursue");
+			body.AIMove(pursueTarget.transform.position);
+		}
+	}
+	
+	public void HomeCollision(GameObject other)
+	{
+		if(myState == BehaviorState.returnHome && other == pursueTarget)
+		{
+			pursueTarget.GetComponent<StoragePointSource>().isGrown = true;
+			pursueTarget = null;
+			myState = BehaviorState.idle;
+			Destroy(carriedFood);
+			idleTimer = 0f;
+			//Fill up the Prairie Dog's Tummy, so he doesn't eat the food he just stored. He only chooses to "store" when he's idle (and therefore 'full'), so this shouldn't have too warping an effect
+			Mathf.Clamp (stateMachine.nutrition, (stateMachine.maximumNutrition * stateMachine.eatThreshold) + 10f, stateMachine.maximumNutrition);			
+		}
+	} 
+	
 	public void ClearFriends()
 	{
 		myState = BehaviorState.idle;
@@ -93,7 +147,9 @@ public class PrairieDogBrain : GatherBrain
 		if(pursueTarget != null && pursueTarget.GetComponent<PrairieDogBrain>())
 		{
 			pursueTarget.GetComponent<PrairieDogBrain>().ClearFriends();
-			Destroy(gameObject);
 		}
+		if(carriedFood != null)
+			Destroy(carriedFood);
+		Destroy(gameObject);
 	}
 }

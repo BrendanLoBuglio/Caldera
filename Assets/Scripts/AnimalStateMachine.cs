@@ -27,8 +27,8 @@ public class AnimalStateMachine : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		//nutrition -= Time.deltaTime;
-		//hydration -= Time.deltaTime;
-		Debug.Log ("ANIMAL STATE MACHINE IS OFF!!!!");
+		nutrition -= Time.deltaTime;
+		hydration -= Time.deltaTime;
+		//Debug.Log ("ANIMAL STATE MACHINE IS OFF!!!!");
 	}
 }

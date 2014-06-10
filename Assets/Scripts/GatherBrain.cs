@@ -50,7 +50,13 @@ public class GatherBrain : AnimalBrain
 			
 			idleTimer += Time.deltaTime;
 			if(idleTimer > idleTime)
-				ConversationIdleDecide(); //Only meaningful in the child class PrairieDogBrain
+			{
+				bool randomizer = (Random.Range (0f, 1f) > 0.333f);
+				if(randomizer)
+					ConversationIdleDecide(); //Only meaningful in the child class PrairieDogBrain
+				if(myState == BehaviorState.idle) //This triggers either if randomizer ends up false, or if I didn't get a conversation partner from ConversationIdleDecide()
+					StashFood();			
+			}
 		}
 		
 		//Pursuing state behaviors:		
@@ -60,7 +66,7 @@ public class GatherBrain : AnimalBrain
 			idleTimer = 0f;
 		}
 		
-		if(myState == BehaviorState.pursue)
+		if(myState == BehaviorState.pursue || myState == BehaviorState.pursueStash)
 		{		
 			animator.SetTrigger ("Pursue");
 			body.AIMove(pursueTarget.transform.position);
@@ -73,7 +79,7 @@ public class GatherBrain : AnimalBrain
 				if(pursueTarget.GetComponent<Resource>().myType == ResourceType.food && !pursueTarget.GetComponent<FoodSource>().isGrown)
 				{
 					gameObject.SendMessage ("IfFoodTargetChanged", SendMessageOptions.DontRequireReceiver);
-					FindTarget(ResourceType.food);
+					FindTarget(ResourceType.food, myState);
 				}
 			}
 		}
@@ -107,12 +113,16 @@ public class GatherBrain : AnimalBrain
 				}
 			}
 		}
+		ReturnStash(); //Only meaningful in the child class PrairieDogBrain
 	}
 	
 	public virtual void PrairieBrainStart() {}
 	public virtual void ConversationIdleDecide() {}
 	public virtual void ConversationPursueCheck() {}
 	public virtual void ConversationConsume() {}
+	public virtual void StashFood() {}
+	public virtual void StashCollisionCheck(GameObject other) {}
+	public virtual void ReturnStash() {}
 	
 	public void CheckNeeds()
 	{
@@ -126,22 +136,22 @@ public class GatherBrain : AnimalBrain
 		
 		//Get whatever resource I need. If I need both, get whichever resource is lower
 		if(needWater && !needFood)
-			FindTarget(ResourceType.water);
+			FindTarget(ResourceType.water, BehaviorState.pursue);
 		if(needFood && !needWater)
-			FindTarget(ResourceType.food);
+			FindTarget(ResourceType.food, BehaviorState.pursue);
 		if(needFood && needWater)
 		{
 			if(stateMachine.nutrition >= stateMachine.hydration)
-				FindTarget(ResourceType.water);
+				FindTarget(ResourceType.water, BehaviorState.pursue);
 			else
-				FindTarget(ResourceType.food);
+				FindTarget(ResourceType.food, BehaviorState.pursue);
 		}
 	}
 	
-	public void FindTarget(ResourceType resource)
+	public void FindTarget(ResourceType resource, BehaviorState newState)
 	{
-		pursueTarget = foodMap.FindClosestResource(resource, transform.position);
-		myState = BehaviorState.pursue;
+		pursueTarget = foodMap.FindClosestResource(resource, transform.position, stateMachine.myType);
+		myState = newState;
 	}
 	
 	public virtual void ResourceCollision(GameObject other) //Depends on a SendMessage Call from AnimalSensory
@@ -153,6 +163,8 @@ public class GatherBrain : AnimalBrain
 			consumeTimer = 0f;
 			myState = BehaviorState.consuming;
 		}
+		
+		StashCollisionCheck(other);
 	}
 	
 	public virtual void ActorDeath()

@@ -10,4 +10,8 @@ public abstract class Resource : MonoBehaviour {
 	{
 		//Whatever happens when I'm eaten	
 	}
+	public virtual void Stash(AnimalStateMachine consumer)
+	{
+		//Whatever happens when an animal decides to bring me home. Only meaningful for food.
+	}
 }

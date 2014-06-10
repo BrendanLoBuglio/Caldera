@@ -45,7 +45,7 @@ public class FoodMap : MonoBehaviour {
 		}
 	}
 	
-	public GameObject FindClosestResource (ResourceType resource, Vector2 myPosition)
+	public GameObject FindClosestResource (ResourceType resource, Vector2 myPosition, AnimalType myType)
 	{
 		List<GameObject> resourceList = new List<GameObject>();
 		if(resource == ResourceType.food)
@@ -54,13 +54,27 @@ public class FoodMap : MonoBehaviour {
 			resourceList = waterList;
 		
 		GameObject closest = resourceList[0];
+		if(myType != AnimalType.prairieDog && resourceList[0].GetComponent<StoragePointSource>())
+		{
+			for(int i = 0; i < resourceList.Count; i++)
+			{
+				if(!resourceList[i].GetComponent<StoragePointSource>())
+					closest = resourceList[i];
+					break;
+			}
+		}
 		
 		for (int i = 0; i < resourceList.Count; i++)
 		{
 			float currentDistance = Vector2.Distance(closest.transform.position, myPosition);
 			float newDistance = Vector2.Distance(resourceList[i].transform.position, myPosition);
 			if(newDistance < currentDistance)
-				closest = resourceList[i];
+			{
+				if(myType == AnimalType.prairieDog || !resourceList[i].GetComponent<StoragePointSource>())
+				{
+					closest = resourceList[i];
+				}
+			}
 		}
 		
 		return closest;

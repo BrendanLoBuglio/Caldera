@@ -9,15 +9,15 @@ public class FoodSource : Resource {
 	private float regrowTimer = 0f;
 	public bool isGrown = true; //Assuming that I'm an intact plant, have I grown a fruit?
 	public bool isWithered = false; //If isWithered is true, I can't grow fruit until it rains and isWithered becomes false
-	private Animator animator;
+	public Animator animator;
 
-	void Start () 
+	public virtual void Start () 
 	{
 		animator = gameObject.GetComponent<Animator>();
 		myType = ResourceType.food;
 	}
 	
-	void Update () 
+	public virtual void Update () 
 	{
 		if(!isGrown && !isWithered)
 			regrowTimer += Time.deltaTime;
@@ -39,5 +39,10 @@ public class FoodSource : Resource {
 		regrowTimer = 0f;
 		
 		isWithered = witherResource;
+	}
+	public override void Stash(AnimalStateMachine consumer)
+	{
+		isGrown = false;
+		regrowTimer = 0f;
 	}
 }

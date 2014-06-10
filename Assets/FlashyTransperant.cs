@@ -3,15 +3,8 @@ using System.Collections;
 
 public class FlashyTransperant : MonoBehaviour {
 
-	public Renderer renderer;
 	public float alpha = 0f;
 	public float sinCounter = 0f;
-	
-	
-	void Start () 
-	{
-		renderer = gameObject.GetComponent<Renderer>();
-	}
 	
 	void Update () 
 	{

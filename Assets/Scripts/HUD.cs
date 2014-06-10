@@ -4,16 +4,16 @@ using System.Collections;
 [ExecuteInEditMode]
 public class HUD : MonoBehaviour 
 {
-	private float currentNutrition = 100f, currentHydration = 100f, karma = 100f;
+	//private float currentNutrition = 100f, currentHydration = 100f, karma = 100f;
 	public float nutritionRatio = 1f, hydrationRatio = 1f, karmaRatio = 1f;
-	public float spaceBetweenBars = 5f;
-	public float barMargin = 5f;
-	public Vector2 barSizeScreenFraction;
+	//public float spaceBetweenBars = 5f;
+	//public float barMargin = 5f;
+	//public Vector2 barSizeScreenFraction;
 	
-	private Rect karmaBarRect;
-	private Rect foodBarRect;
-	private Rect waterBarRect;
-	void Update () 
+	//private Rect karmaBarRect;
+	//private Rect foodBarRect;
+	//private Rect waterBarRect;
+	/*void Update () 
 	{
 		karmaBarRect = new Rect(Screen.width - (barMargin + (Screen.width / barSizeScreenFraction.x)), spaceBetweenBars,
 			 karmaRatio * Screen.width / barSizeScreenFraction.x, Screen.height / barSizeScreenFraction.y);
@@ -31,5 +31,5 @@ public class HUD : MonoBehaviour
 			GUI.Box(foodBarRect, "This is the Food bar");
 			GUI.Box(waterBarRect, "This is the Water bar");
 		}
-	}
+	}*/
 }

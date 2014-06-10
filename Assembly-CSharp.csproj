@@ -83,7 +83,9 @@
      <Compile Include="Assets\Scripts\WaterSource.cs" />
      <Compile Include="Assets\Scripts\Waypoint.cs" />
      <Compile Include="Assets\Scripts\moveme.cs" />
+     <Compile Include="Assets\StoragePointSource.cs" />
      <Compile Include="Assets\TurkeyBrain.cs" />
+     <Compile Include="Assets\prairieDogBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
